@@ -210,7 +210,7 @@ Here is the <code>Board</code> class</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The method <code>newBoard</code> return a copy of the current board object with the sign of the player making a move to the specified location. The methods <code>rotate</code>and <code>reflectHorizontal</code> are necessary in a later in chapter 1.
+<p>The method <code>newBoard</code> returns a copy of the current board with the given sign of the player making a move to the specified location. The methods <code>rotate</code> and <code>reflectHorizontal</code> are necessary in a later in chapter 1.
 Here is an empty board</p>
 
 </div>
@@ -301,7 +301,7 @@ Here is an empty board</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-Game-object">The Game object<a class="anchor-link" href="#The-Game-object">&#182;</a></h1><p>This object refers to both players and the board, it keeps a history of moves, has a method for sequentially making the players move and method that checks if the game is finished with a win,loose or a tie.</p>
+<h1 id="The-Game-object">The Game object<a class="anchor-link" href="#The-Game-object">&#182;</a></h1><p>This object refers to both players and the board, it keeps a history of moves, has a method for sequentially making the players move and a method that checks if the game is finished with a win,loose or a tie.</p>
 
 </div>
 </div>
@@ -363,9 +363,9 @@ Here is an empty board</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-Player-object">The Player object<a class="anchor-link" href="#The-Player-object">&#182;</a></h1><p>The <code>Player</code> plays randomly with the probability specified in the constructor and greedily otherwise, where playing greedily means choosing the move with the highest value given by the value function. The value function is simply a dictionary and is maintained within the <code>Player</code> object. It maps board states to a score between 0 and 1.
+<h1 id="The-Player-object">The Player object<a class="anchor-link" href="#The-Player-object">&#182;</a></h1><p>The <code>Player</code> plays randomly with the probability specified in the constructor and greedily otherwise, where playing greedily means choosing the move with the highest value given by the value function. The value function is simply a dictionary and is maintained within the <code>Player</code> object. It maps board states to a score which is a real number between 0 and 1.
 Initially the value dict is empty, but gets filled as the program runs when a query for the value of a state is made. The winning combinations are in <code>wincombn</code> and they get the score 1, loosing combinations get score 0 and the rest 0.5 initially. Winning combination for a player corresponds to the board state having the same sign vertically, horizontally or diagonally for a player.</p>
-<p>The approach described in the book to reinforcement learning is in the method <code>greedyMove</code>. Here after iterating on all empty cells and selecting one from the set of best moves we update the value of the previous board state we were at according to the formula <code>V(s)=V(s)+alpha*[V(s')-V(s)]</code>. Here <code>V(s)</code> is the value of the old state <code>V(s')</code> value of the best move.</p>
+<p>The approach described in the book to reinforcement learning is in the method <code>greedyMove</code>. Here after iterating on all empty cells and selecting one from the set of best moves we update the score of the previous board state we were at, according to the formula <code>V(s)=V(s)+alpha*[V(s')-V(s)]</code>. Here <code>V(s)</code> is the value of the old state <code>V(s')</code> value of the best move.</p>
 
 </div>
 </div>
@@ -449,7 +449,7 @@ Initially the value dict is empty, but gets filled as the program runs when a qu
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-GameLoop-object:">The GameLoop object:<a class="anchor-link" href="#The-GameLoop-object:">&#182;</a></h1><p>This is for bookkeeping the number of wins,losses and ties and all games played</p>
+<h1 id="The-GameLoop-object:">The GameLoop object:<a class="anchor-link" href="#The-GameLoop-object:">&#182;</a></h1><p>This is for bookkeeping the number of wins, losses and ties. It also keeps all played games.</p>
 
 </div>
 </div>
@@ -488,12 +488,30 @@ Initially the value dict is empty, but gets filled as the program runs when a qu
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>plotWins</code> is a utility function for plotting the ratio of number of wins to total games played</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">run</span> ~/software-projects/RL/tictactoe.py
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="k">def</span> <span class="nf">plotWins</span><span class="p">(</span><span class="n">gl</span><span class="p">):</span>
+    <span class="n">wins</span><span class="o">=</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">win</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gl</span><span class="o">.</span><span class="n">games</span><span class="p">]</span>
+    <span class="n">wins_cs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">wins</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">avg</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wins_cs</span><span class="p">)]</span>
+    <span class="k">print</span> <span class="n">avg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">games</span><span class="p">)),</span><span class="n">avg</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -506,25 +524,17 @@ Initially the value dict is empty, but gets filled as the program runs when a qu
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lets-run-and-see-what-happens:">Lets run and see what happens:<a class="anchor-link" href="#Lets-run-and-see-what-happens:">&#182;</a></h1><p>First define a function for plotting the ratio of number of wins to total games played</p>
+<h1 id="Lets-run-and-see-what-happens:">Lets run and see what happens:<a class="anchor-link" href="#Lets-run-and-see-what-happens:">&#182;</a></h1><p>To try it yourself checkout the <code>tictactoe.py</code> from the repository and load as follows:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="k">def</span> <span class="nf">plotWins</span><span class="p">(</span><span class="n">gl</span><span class="p">):</span>
-    <span class="n">wins</span><span class="o">=</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">win</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gl</span><span class="o">.</span><span class="n">games</span><span class="p">]</span>
-    <span class="n">wins_cs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">wins</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
-    <span class="n">avg</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wins_cs</span><span class="p">)]</span>
-    <span class="k">print</span> <span class="n">avg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">games</span><span class="p">)),</span><span class="n">avg</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">run</span> ~/software-projects/RL/tictactoe.py
 </pre></div>
 
 </div>
@@ -2443,7 +2453,7 @@ better to learn? Which would result in more wins?</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">grdy1</span><span class="o">=</span><span class="n">Player</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">randomness</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
@@ -2459,10 +2469,10 @@ better to learn? Which would result in more wins?</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="nb">set</span><span class="p">(</span><span class="n">expl2</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<div class=" highlight hl-ipython2"><pre><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">expl2</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 </pre></div>
 
 </div>
@@ -2473,288 +2483,11 @@ better to learn? Which would result in more wins?</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{0.5,
- 0.5002657205,
- 0.5008338590849833,
- 0.5022597581203047,
- 0.5030417959073091,
- 0.5035944164723676,
- 0.50405,
- 0.504073289353266,
- 0.5045,
- 0.505,
- 0.5050867150611488,
- 0.5051152108692248,
- 0.5058328306954999,
- 0.50602654094,
- 0.5062175382729529,
- 0.5062212999517224,
- 0.5065693877476396,
- 0.5077065343134328,
- 0.5081623588510755,
- 0.5083353480645029,
- 0.5085500000000001,
- 0.508862602445,
- 0.5090253840724566,
- 0.50905,
- 0.5092069542606794,
- 0.5110231379935412,
- 0.5119255,
- 0.51355,
- 0.51534743270918,
- 0.5163886895,
- 0.517195,
- 0.5174339220049999,
- 0.518304655,
- 0.51842795,
- 0.518894543993192,
- 0.5204755,
- 0.52342795,
- 0.5234279500000001,
- 0.5250819247730488,
- 0.526085155,
- 0.5262699093486232,
- 0.5267261672704715,
- 0.5269351265426858,
- 0.5270172174950001,
- 0.5284766395000001,
- 0.5301815000000001,
- 0.532275121962205,
- 0.5326704999999999,
- 0.532805,
- 0.5361669515525259,
- 0.536804946455,
- 0.537082152795775,
- 0.5371995749329929,
- 0.540003627995,
- 0.5401716404469564,
- 0.5405,
- 0.5407866960788793,
- 0.5431260266902439,
- 0.5431760938543778,
- 0.5432457414116351,
- 0.545,
- 0.5460824844958042,
- 0.5470921768983559,
- 0.5471099011106986,
- 0.5472027069775344,
- 0.5474925012740499,
- 0.5484880762814308,
- 0.5490946587235196,
- 0.5497226534860553,
- 0.55,
- 0.5514361242219766,
- 0.5515674696747431,
- 0.5548598550193858,
- 0.5556277306000001,
- 0.556063437169251,
- 0.5561700727476855,
- 0.5573126062459441,
- 0.5581950535450002,
- 0.559115251944281,
- 0.559955257775195,
- 0.5613455345271108,
- 0.561582242723617,
- 0.5623295,
- 0.563926946455,
- 0.5679618342844867,
- 0.5726776029019813,
- 0.5732886397780652,
- 0.5733889406185195,
- 0.5745851896998079,
- 0.5752433143591836,
- 0.5769375014238941,
- 0.5782778127595536,
- 0.5818258181832268,
- 0.5853061392769835,
- 0.5855000000000001,
- 0.58645,
- 0.5879544220246891,
- 0.58890155,
- 0.5905,
- 0.5920979478165838,
- 0.5927395005920004,
- 0.5928061155229977,
- 0.5934815919789685,
- 0.5950000000000001,
- 0.5955010681086667,
- 0.5959802322555893,
- 0.5960120827969001,
- 0.5979336817595,
- 0.6007320500000001,
- 0.6018109651759156,
- 0.6028471355243737,
- 0.6067504924461912,
- 0.608229875603899,
- 0.6123229202493817,
- 0.6130840400539139,
- 0.6130863333150512,
- 0.6150245000000001,
- 0.6161726374179042,
- 0.6192550000000001,
- 0.61944142073095,
- 0.6218510025489916,
- 0.62195,
- 0.6228930744500001,
- 0.6257696863348927,
- 0.6270521177983748,
- 0.6297407327364117,
- 0.6340390533531418,
- 0.6343094004141498,
- 0.6355000000000001,
- 0.6359760115345574,
- 0.6369955482001165,
- 0.6371181790776483,
- 0.6392795000000001,
- 0.6397986616616378,
- 0.6415341264683336,
- 0.6415965500000002,
- 0.6424413940985265,
- 0.6456681203219995,
- 0.6468513924840668,
- 0.6525792208845845,
- 0.6529505034857408,
- 0.6579563071868624,
- 0.6585432301265851,
- 0.659755,
- 0.6609745,
- 0.6637581858960185,
- 0.6707266709055993,
- 0.67195,
- 0.6741620223152296,
- 0.678070201955,
- 0.6791064948047388,
- 0.679400236423188,
- 0.6864529429608506,
- 0.6884662279042575,
- 0.6892795,
- 0.6905557456685646,
- 0.6937795,
- 0.69524155,
- 0.6953489010945519,
- 0.695864845,
- 0.7029038283180289,
- 0.704755,
- 0.70566405895,
- 0.7081967252655659,
- 0.7115413896425451,
- 0.7146915081248042,
- 0.7159562501112569,
- 0.7175257128460066,
- 0.7342795,
- 0.7346636208658249,
- 0.7367153036905001,
- 0.7395908630465319,
- 0.7403473631610007,
- 0.740670930955,
- 0.748992029142296,
- 0.7562860305131427,
- 0.7566462742594726,
- 0.7586535375754462,
- 0.7595652278444821,
- 0.7605439610291258,
- 0.7606898212595,
- 0.7608515499999999,
- 0.7617318229763069,
- 0.763570201955,
- 0.7646738064209915,
- 0.7668922997072118,
- 0.7673155951382498,
- 0.7689409349500002,
- 0.7702751943110305,
- 0.7727606416726018,
- 0.7776332016976052,
- 0.7847663949999999,
- 0.78516077995,
- 0.7883961927251949,
- 0.7890028070094635,
- 0.7901302647099134,
- 0.7904150488764782,
- 0.793094701955,
- 0.793294532743302,
- 0.795277047100589,
- 0.7984831399181747,
- 0.7991887616992172,
- 0.80059015968355,
- 0.8024453821380971,
- 0.8041862959154935,
- 0.8050680297378922,
- 0.8059829571286254,
- 0.8062897554999999,
- 0.8084879026389339,
- 0.8119509880321208,
- 0.8155996981290584,
- 0.8183276908259769,
- 0.821571341455,
- 0.8230418065356362,
- 0.8344696330211601,
- 0.8417706925845673,
- 0.843094701955,
- 0.8449322612953081,
- 0.8487792183318127,
- 0.851364811126465,
- 0.8546909078899912,
- 0.8587852317595001,
- 0.8604463873967375,
- 0.865151458087596,
- 0.8659723277071179,
- 0.871776701914138,
- 0.8731395889526756,
- 0.8735861916223835,
- 0.874543990557408,
- 0.875271490145761,
- 0.8790480390841973,
- 0.8830548179106121,
- 0.8874983828487363,
- 0.8888785743291951,
- 0.8969651880095603,
- 0.8970544339526756,
- 0.8989571534448226,
- 0.8999822775187986,
- 0.9005871376734099,
- 0.9064933141653146,
- 0.9101393939687611,
- 0.9133222943408257,
- 0.9167072966668669,
- 0.9179778035330737,
- 0.9191051006154073,
- 0.9200449274136047,
- 0.9206511876546828,
- 0.921878362394988,
- 0.9240711128448351,
- 0.9249526823515004,
- 0.9317012867571515,
- 0.9355829480854068,
- 0.9365379404888765,
- 0.9392116727047154,
- 0.940485656622309,
- 0.9415551978466162,
- 0.9448191339166585,
- 0.9489882501738917,
- 0.9500225707212506,
- 0.9544167328706114,
- 0.9556853094017375,
- 0.9605349225206465,
- 0.961551486799444,
- 0.9654541820419043,
- 0.9658716965785893,
- 0.9676945905538666,
- 0.9761862713129713,
- 0.976719292193399,
- 0.980389351403374,
- 0.9837301547690829,
- 0.9844785453457906,
- 0.984705676334932,
- 0.9866494258201791,
- 0.9909305634478927,
- 0.9935114846471733,
- 0.9961615226742494,
- 0.9965165413876836,
- 0.9990877692060515}</pre>
+<pre>249</pre>
 </div>
 
 </div>
@@ -2762,6 +2495,16 @@ better to learn? Which would result in more wins?</p>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lots of values here, meaning no convergence as expected</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
