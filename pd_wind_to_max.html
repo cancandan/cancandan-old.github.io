@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="author" content="Can Candan">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <title>Porting Andy Farnell's PureData Wind patch to Max/MSP | MyBlog</title>
+
+        <link rel="alternate" type="application/atom+xml" title="MyBlog blog atom feed" href="/feeds/all.atom.xml" />
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/theme/css/pygments.css">
+        <link rel="stylesheet" href="/theme/css/main.css">
+
+    </head>
+
+    <body>
+        <header class="navbar navbar-static-top bs-docs-nav main-header">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/" title="Home" class="title">Can Candan</a></li>
+                </div>
+                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                    <ul class="nav navbar-nav navbar-right">
+                            <li><a href="http://github.com/cancandan" title="cancandan's Github" rel="me">Github</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+<div class="container post">
+
+    <article>
+        <header>
+            <h1>Porting Andy Farnell's PureData Wind patch to Max/MSP</h1>
+            <time datetime="article.date.isoformat()" pubdate>Thu 21 January 2016</time>
+        </header>
+
+        <div class="article_content">
+            <p>The pure data patch I'm trying to reproduce in max is from the excellent book "Designing Sound" by Andy Farnell, which can be found <a href="https://mitpress.mit.edu/books/designing-sound">here</a>.</p>
+<p>Download the Code Examples, open the wind4.pd, you will see this:</p>
+<p><img alt="wind4" src="/images/wind4.png" /></p>
+<p>Below is my initial attempt in max, circled objects are subpatches or abstractions or stuff not found in max:</p>
+<p><img alt="puremax" src="/images/puremax.png" /></p>
+<p>I've used the following max objects corresponding to pd ones, but I'm not sure they are correct:</p>
+<table>
+<thead>
+<tr>
+<th>pd</th>
+<th>max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hip~</td>
+<td>cross~</td>
+</tr>
+<tr>
+<td>delwrite~/vd~</td>
+<td>tapin~/tapout~</td>
+</tr>
+<tr>
+<td>catch~/throw~</td>
+<td>receive~/send~</td>
+</tr>
+<tr>
+<td>lop~</td>
+<td>lores~</td>
+</tr>
+<tr>
+<td>bp~</td>
+<td>reson~</td>
+</tr>
+</tbody>
+</table>
+<p>Shown below are the subpatches in pure data and max side by side</p>
+<p>"pd windspeed":
+<img alt="windspeed" src="/images/windspeed.png" /> <img alt="windspeed_max" src="/images/windspeed_max.png" /></p>
+<p>containing sub patches "pd gust" </p>
+<p><img alt="gust" src="/images/gust.png" /> <img alt="gust_max" src="/images/gust_max.png" /></p>
+<p>and "pd squall"</p>
+<p><img alt="squall" src="/images/squall.png" /> <img alt="squall_max" src="/images/squall_max.png" /></p>
+<p>There's also the abstraction "fcpan"</p>
+<p><img alt="fcpan" src="/images/fcpan.png" /> <img alt="fcpan_max" src="/images/fcpan_max.png" /></p>
+<p>And rzero~ which is not found in max, below is a max port I've found in forums</p>
+<p><img alt="rzero" src="/images/rzero.png" /></p>
+<p>At this point the resulting sounds from pure data and max are completely different</p>
+<p>Max output:</p>
+<p><audio controls="controls">
+  <source type="audio/mpeg" src="audio/initial_max_audio.mp3"></source><br />
+</audio></p>
+<p>Pd output:</p>
+<p><audio controls="controls">
+  <source type="audio/mpeg" src="audio/pd_audio.mp3"></source><br />
+</audio></p>
+<p>This exercise reveals that the two environments are quite different and patches are not easily portable between the two. </p>
+<p>Max code is located <a href="https://github.com/cancandan/puredata-wind-to-max">here</a>. Please let me know if you can spot the problem.</p>
+<p>I'll try using the abstractions I've found in this <a href="https://github.com/tkzic/max-pd-abstractions">repository</a> for emulating the Pd patch. </p>
+        </div>
+
+        <div class="meta">
+            <div>
+                    <a href="/tag/max.html" class="tag">max</a>
+                    <a href="/tag/puredata.html" class="tag">puredata</a>
+                    <a href="/tag/sound-design.html" class="tag">sound design</a>
+            </div>
+            <div>
+                <a id="comments-button" class="comments_btn" href="#disqus_thread">Show comments</a>
+            </div>
+        </div>
+    </article>
+</div>
+
+<script type="text/javascript">
+(function () {
+    'use strict';
+
+    // Global object
+    var App = {};
+
+    // Create button
+    App.commentsButton = document.getElementById('comments-button');
+
+    App.commentsButton.onclick = function () {
+        // Remove button action on click
+        App.commentsButton.onclick = function () {
+        }
+
+        // Create comments container
+        App.disqusContainer = document.createElement('div');
+        App.disqusContainer.setAttribute('id', 'disqus_thread');
+        // App.disqusContainer.setAttribute('class', 'container');
+
+        // Append container to body or div
+        // document.body.appendChild( App.disqusContainer );
+        var container = document.getElementsByClassName('container post')[0];
+        container.appendChild(App.disqusContainer);
+
+        // Your Disqus shortname
+        App.disqus_shortname = 'cancandan';
+
+        // Embed Disqus
+        var dsq = document.createElement('script');
+
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + App.disqus_shortname + '.disqus.com/embed.js';
+
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+        window.scrollTo(0, dsq.offsetTop - 200);
+    };
+})();
+</script>
+
+        <style type="text/css">.text_cell .prompt {
+    display: none;
+}
+
+div.cell {
+    padding: 0;
+}
+
+div.text_cell_render {
+    padding: 0;
+}
+
+div.prompt {
+    font-size: 13px;
+}
+
+div.input_prompt {
+    padding: .7em 0.2em;
+}
+
+div.output_prompt {
+    padding: .4em .2em;
+}
+
+div.input_area {
+    margin: .2em 0.4em;
+}
+
+table.dataframe {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+table.dataframe th, td {
+    padding: 4px;
+    text-align: left;
+}</style>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68381431-1', '');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'cancandan';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+    </body>
+</html>
