@@ -46,7 +46,7 @@
 </pre></div>
 
 
-<p>Now a helper function for holding note on events from keyboard</p>
+<p>Now a helper function for holding note events from keyboard</p>
 <div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">createevent</span> <span class="nv">time</span> <span class="nv">key</span> <span class="nv">vel</span> <span class="nv">dur</span><span class="p">)</span>
   <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">ht</span> <span class="p">(</span><span class="nf">make-hash-table</span><span class="p">)))</span>
     <span class="p">(</span><span class="k">set! </span><span class="p">(</span><span class="nf">ht</span> <span class="ss">&#39;time</span><span class="p">)</span> <span class="nv">time</span><span class="p">)</span>
@@ -57,7 +57,7 @@
 </pre></div>
 
 
-<p>Midi notes are sent in pairs of note-on, note-off messages, so to determine the duration of the note we need to keep track of the time for note-on event. <code>(metro-beat)</code> gives us the current time. To keep track of this a hash table is used, ht. After a note-on event we store this in ht, when note-off comes we calculate the duration and create an event (which is a hash table again) using <code>createevent</code> function and store those hash tables in <code>events</code> list.</p>
+<p>Midi notes are sent from a midi keyboard in pairs of note-on, note-off messages, so to determine the duration of the note we need to keep track of the time for those events. <code>(metro-beat)</code> gives us the current time. To keep track of this a hash table is used, ht. After a note-on event we store this in ht, when note-off comes we calculate the duration and create an event (which is a hash table again) using <code>createevent</code> function and store those hash tables in <code>events</code> list.</p>
 <div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">recorder</span> <span class="nv">data</span><span class="p">)</span>  
     <span class="p">(</span><span class="k">let* </span><span class="p">((</span><span class="nf">opcode</span> <span class="p">(</span><span class="nf">first</span> <span class="nv">data</span><span class="p">))</span>
         <span class="p">(</span><span class="nf">channel</span> <span class="p">(</span><span class="nf">second</span> <span class="nv">data</span><span class="p">))</span>
@@ -82,13 +82,13 @@
 </pre></div>
 
 
-<p>When you are done, reverse the list</p>
+<p>When you are done, reverse the list, this is necessary since the list is built by consing</p>
 <div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="nv">ready_to_play</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">events</span><span class="p">))</span>
 </pre></div>
 
 
-<p>We need to determine how long to wait between each event, the function below calculates that and returns a new list.
-In this case the wait time is stored in key 'time</p>
+<p>To play back correctly we need duration for the notes and the time to wait between nodes. the function below calculates wait time and returns a new list.</p>
+<p>In this case the wait time is stored in key 'time</p>
 <div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tdiff</span> <span class="nv">times</span><span class="p">)</span>
   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">eq? </span><span class="p">(</span><span class="nb">length </span><span class="nv">times</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">createevent</span> <span class="mi">0</span> <span class="p">((</span><span class="nb">car </span><span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;key</span><span class="p">)</span> <span class="p">((</span><span class="nb">car </span><span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;vel</span><span class="p">)</span> <span class="p">((</span><span class="nb">car </span><span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;dur</span><span class="p">)))</span>
       <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">createevent</span> <span class="p">(</span><span class="nb">- </span><span class="p">((</span><span class="nf">second</span> <span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;time</span><span class="p">)</span> <span class="p">((</span><span class="nf">first</span> <span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;time</span><span class="p">))</span>
