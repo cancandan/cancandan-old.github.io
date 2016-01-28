@@ -96,23 +96,21 @@ In this case the wait time is stored in key 'time</p>
 <span class="p">((</span><span class="nf">first</span> <span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;vel</span><span class="p">)</span> 
 <span class="p">((</span><span class="nf">first</span> <span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;dur</span><span class="p">))</span> 
 <span class="p">(</span><span class="nf">tdiff</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">times</span><span class="p">)))))</span>
-<span class="o">```</span><span class="nv">scheme</span>
+</pre></div>
 
-<span class="nv">Function</span> <span class="nv">for</span> <span class="nv">playing</span> <span class="nv">back</span>
 
-<span class="o">```</span><span class="nv">scheme</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">player</span> <span class="nv">clip</span><span class="p">)</span>
+<p>Function for playing back</p>
+<div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">player</span> <span class="nv">clip</span><span class="p">)</span>
   <span class="p">(</span><span class="nf">process</span> <span class="nv">for</span> <span class="nv">e</span> <span class="nv">in</span> <span class="nv">clip</span>
            <span class="nv">do</span>
            <span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">e</span> <span class="ss">&#39;vel</span><span class="p">)</span> <span class="mi">127</span><span class="p">))</span>
            <span class="p">(</span><span class="nf">mp:midi</span> <span class="nv">:key</span> <span class="p">(</span><span class="nf">e</span> <span class="ss">&#39;key</span><span class="p">)</span> <span class="nv">:dur</span> <span class="p">(</span><span class="nf">e</span> <span class="ss">&#39;dur</span><span class="p">)</span> <span class="nv">:amp</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">e</span> <span class="ss">&#39;vel</span><span class="p">)</span> <span class="mi">127</span><span class="p">))</span>
            <span class="p">(</span><span class="nf">wait</span> <span class="p">(</span><span class="nf">e</span> <span class="ss">&#39;time</span><span class="p">))))</span>
-<span class="o">```</span><span class="nv">scheme</span>
+</pre></div>
 
-<span class="nv">Start</span> <span class="nv">playback</span>
 
-<span class="o">```</span><span class="nv">scheme</span>    
-<span class="p">(</span><span class="nf">sprout</span> <span class="p">(</span><span class="nf">player</span> <span class="p">(</span><span class="nf">tdiff</span> <span class="nv">x</span><span class="p">)))</span>
+<p>Start playback</p>
+<div class="highlight"><pre><span class="p">(</span><span class="nf">sprout</span> <span class="p">(</span><span class="nf">player</span> <span class="p">(</span><span class="nf">tdiff</span> <span class="nv">x</span><span class="p">)))</span>
 </pre></div>
         </div>
 
