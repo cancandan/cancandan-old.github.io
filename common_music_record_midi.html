@@ -87,7 +87,7 @@
 </pre></div>
 
 
-<p>To play back correctly we need duration for the notes and the time to wait between nodes. the function below calculates wait time and returns a new list.</p>
+<p>To play back correctly we need duration for the notes and the time to wait between notes. the function below calculates wait time and returns a new list.</p>
 <p>In this case the wait time is stored in key 'time</p>
 <div class="highlight"><pre><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tdiff</span> <span class="nv">times</span><span class="p">)</span>
   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">eq? </span><span class="p">(</span><span class="nb">length </span><span class="nv">times</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">createevent</span> <span class="mi">0</span> <span class="p">((</span><span class="nb">car </span><span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;key</span><span class="p">)</span> <span class="p">((</span><span class="nb">car </span><span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;vel</span><span class="p">)</span> <span class="p">((</span><span class="nb">car </span><span class="nv">times</span><span class="p">)</span> <span class="ss">&#39;dur</span><span class="p">)))</span>
