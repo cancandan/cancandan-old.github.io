@@ -10,19 +10,20 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet/less" type="text/css" href="http://localhost:8000/theme/stylesheet/style.less">
+    <link rel="stylesheet/less" type="text/css" href="/theme/stylesheet/style.less">
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
 
 
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-          href="http://localhost:8000/theme/pygments/github.min.css">
+          href="/theme/pygments/github.min.css">
 
 
-  <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/font-awesome/css/fontawesome.css">
-  <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/font-awesome/css/brands.css">
-  <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/font-awesome/css/solid.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
 
 
+    <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="tekne Atom">
 
 
 
@@ -37,11 +38,11 @@
 <meta property="og:title" content="Porting Andy Farnell&#39;s PureData Wind patch to Max/MSP"/>
 <meta property="og:description" content="An exercise in porting a complex patch from pure data to max/msp"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="http://localhost:8000/pd_wind_to_max.html"/>
+<meta property="og:url" content="/pd_wind_to_max.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2016-01-21 00:00:00+01:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="http://localhost:8000/author/can-candan.html">
+<meta property="article:author" content="/author/can-candan.html">
 <meta property="article:section" content="Sound Design"/>
 <meta property="article:tag" content="max"/>
 <meta property="article:tag" content="puredata"/>
@@ -54,12 +55,12 @@
 <body class="light-theme">
   <aside>
     <div>
-      <a href="http://localhost:8000">
-        <img src="http://localhost:8000/theme/img/profile.png" alt="" title="">
+      <a href="">
+        <img src="/theme/img/profile.png" alt="" title="">
       </a>
 
       <h1>
-        <a href="http://localhost:8000"></a>
+        <a href=""></a>
       </h1>
 
 
@@ -85,12 +86,13 @@
   <main>
 
     <nav>
-      <a href="http://localhost:8000">Home</a>
+      <a href="">Home</a>
 
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
       <a href="/tags.html">Tags</a>
 
+      <a href="/feeds/all.atom.xml">Atom</a>
 
     </nav>
 
@@ -99,7 +101,7 @@
       
     <h1 id="pd_wind_to_max">Porting Andy Farnell's PureData Wind patch to Max/MSP</h1>
     <p>
-      Posted on Thu 21 January 2016 in <a href="http://localhost:8000/category/sound-design.html">Sound Design</a>
+      Posted on Thu 21 January 2016 in <a href="/category/sound-design.html">Sound Design</a>
 
     </p>
   </header>
@@ -108,9 +110,9 @@
   <div>
     <p>The pure data patch I'm trying to reproduce in max is from the excellent book "Designing Sound" by Andy Farnell, which can be found <a href="https://mitpress.mit.edu/books/designing-sound">here</a>.</p>
 <p>Download the Code Examples, open the wind4.pd, you will see this:</p>
-<p><img alt="wind4" src="http://localhost:8000/images/wind4.png"></p>
+<p><img alt="wind4" src="/images/wind4.png"></p>
 <p>Below is my initial attempt in max, circled objects are subpatches or abstractions or stuff not found in max:</p>
-<p><img alt="puremax" src="http://localhost:8000/images/puremax.png"></p>
+<p><img alt="puremax" src="/images/puremax.png"></p>
 <p>I've used the following max objects corresponding to pd ones, but I'm not sure they are correct:</p>
 <table>
 <thead>
@@ -144,15 +146,15 @@
 </table>
 <p>Shown below are the subpatches in pure data and max side by side</p>
 <p>"pd windspeed":
-<img alt="windspeed" src="http://localhost:8000/images/windspeed.png"> <img alt="windspeed_max" src="http://localhost:8000/images/windspeed_max.png"></p>
+<img alt="windspeed" src="/images/windspeed.png"> <img alt="windspeed_max" src="/images/windspeed_max.png"></p>
 <p>containing sub patches "pd gust" </p>
-<p><img alt="gust" src="http://localhost:8000/images/gust.png"> <img alt="gust_max" src="http://localhost:8000/images/gust_max.png"></p>
+<p><img alt="gust" src="/images/gust.png"> <img alt="gust_max" src="/images/gust_max.png"></p>
 <p>and "pd squall"</p>
-<p><img alt="squall" src="http://localhost:8000/images/squall.png"> <img alt="squall_max" src="http://localhost:8000/images/squall_max.png"></p>
+<p><img alt="squall" src="/images/squall.png"> <img alt="squall_max" src="/images/squall_max.png"></p>
 <p>There's also the abstraction "fcpan"</p>
-<p><img alt="fcpan" src="http://localhost:8000/images/fcpan.png"> <img alt="fcpan_max" src="http://localhost:8000/images/fcpan_max.png"></p>
+<p><img alt="fcpan" src="/images/fcpan.png"> <img alt="fcpan_max" src="/images/fcpan_max.png"></p>
 <p>And rzero~ which is not found in max, below is a max port I've found in forums</p>
-<p><img alt="rzero" src="http://localhost:8000/images/rzero.png"></p>
+<p><img alt="rzero" src="/images/rzero.png"></p>
 <p>At this point the resulting sounds from pure data and max are completely different</p>
 <p>Max output:</p>
 <p><audio controls="controls">
@@ -168,9 +170,9 @@
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="http://localhost:8000/tag/max.html">max</a>
-      <a href="http://localhost:8000/tag/puredata.html">puredata</a>
-      <a href="http://localhost:8000/tag/sound-design.html">sound design</a>
+      <a href="/tag/max.html">max</a>
+      <a href="/tag/puredata.html">puredata</a>
+      <a href="/tag/sound-design.html">sound design</a>
     </p>
   </div>
 
@@ -209,7 +211,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   "@context" : "http://schema.org",
   "@type" : "Blog",
   "name": " tekne ",
-  "url" : "http://localhost:8000",
+  "url" : "",
   "image": "",
   "description": ""
 }
